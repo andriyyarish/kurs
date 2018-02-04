@@ -32,11 +32,12 @@ public class KursApplicationTests {
 		rawDataSource.collectData();
 		RawDataEntity rawDataEntity = new RawDataEntity();
 		Date date = new Date(2018,02,04);
-		rawDataEntity.setBaseDate(Date.valueOf("04.02.2018"))
+		rawDataEntity.setBaseDate(date)
 				.setFifthDayMaxTemp(2.5)
 				.setSourceName(SourcesEnum.GISMETEO);
 		rawDataRepository.save(rawDataEntity);
 		Iterable<RawDataEntity> all = rawDataRepository.findAll();
+		System.out.println("!!!!!!!!!!!!!!!!");
 		System.out.println(all);
 
 	}
