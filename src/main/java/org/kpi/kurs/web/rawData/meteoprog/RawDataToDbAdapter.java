@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 
 public class RawDataToDbAdapter {
     private static final SourcesEnum SOURCE_NAME = SourcesEnum.METEOPROG;
-    private String tempPattern = "(-?\\d*)";
+    private String tempPattern = "(-?\\d+)";
 
     @Autowired
     private RawDataRepository rawDataRepository;
@@ -23,6 +23,12 @@ public class RawDataToDbAdapter {
     public RawDataToDbAdapter(List<RawDataDto> rawDataDtoList) {
         this.rawDataDtoList = rawDataDtoList;
     }
+
+    public RawDataToDbAdapter(List<RawDataDto> rawDataDtoList, RawDataRepository rawDataRepository) {
+        this.rawDataDtoList = rawDataDtoList;
+        this.rawDataRepository = rawDataRepository;
+    }
+
 
     public void saveToDb(){
         rawDataEntity = new RawDataEntity();
@@ -40,16 +46,14 @@ public class RawDataToDbAdapter {
     private double convertTemp(String temp){
         String rawTemp = temp;
         Pattern p = Pattern.compile(tempPattern);
+        Matcher matcher = p.matcher(rawTemp);
 
-        Matcher matcher = p.matcher(temp);
-        String group = "";
-        while (matcher.matches()) {
-            group = matcher.group();
+        String group = "777";
+        if (matcher.find()) {
+            group = matcher.group(0);
         }
 
         return Double.valueOf(group);
-
-
     }
 
     private void fillByDate(RawDataDto rawDataDto, int index){
@@ -62,6 +66,16 @@ public class RawDataToDbAdapter {
                 rawDataEntity.setSecondDayMinTemp(convertTemp(rawDataDto.getMin()));
                 rawDataEntity.setSecondDayMaxTemp(convertTemp(rawDataDto.getMax()));
                 break;
+            case 2:
+                rawDataEntity.setThirdDayMinTemp(convertTemp(rawDataDto.getMin()));
+                rawDataEntity.setThirdDayMaxTemp(convertTemp(rawDataDto.getMax()));
+                break;
+            case 3:
+                rawDataEntity.setFourthDayMinTemp(convertTemp(rawDataDto.getMin()));
+                rawDataEntity.setFourthDayMaxTemp(convertTemp(rawDataDto.getMax()));
+                break;
+
+
         }
     }
 
