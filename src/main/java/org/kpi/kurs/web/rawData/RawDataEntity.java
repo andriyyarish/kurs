@@ -1,13 +1,11 @@
 package org.kpi.kurs.web.rawData;
 
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
+@Table(name = "rawdata")
 public class RawDataEntity {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)

@@ -1,6 +1,7 @@
 package org.kpi.kurs.web.rawData;
 
-import java.util.Date;
+import java.sql.Date;
+import java.time.LocalDate;
 
 public class RawDataDto {
     private Long id;
@@ -16,6 +17,11 @@ public class RawDataDto {
 
     public RawDataDto setBaseDate(Date baseDate) {
         this.baseDate = baseDate;
+        return this;
+    }
+
+    public RawDataDto setBaseDate(LocalDate baseDate) {
+        this.baseDate = Date.valueOf(baseDate);
         return this;
     }
 
@@ -43,6 +49,15 @@ public class RawDataDto {
 
     public RawDataDto setMax(String max) {
         this.max = max;
+        return this;
+    }
+
+    public SourcesEnum getSourceName() {
+        return sourceName;
+    }
+
+    public RawDataDto setSourceName(SourcesEnum sourceName) {
+        this.sourceName = sourceName;
         return this;
     }
 

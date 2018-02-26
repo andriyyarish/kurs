@@ -19,3 +19,9 @@ CREATE TABLE IF NOT EXISTS rawData (
 
     PRIMARY KEY (id)
 );
+
+CREATE TABLE IF NOT EXISTS `sources` (
+  `id` INT NOT NULL,
+  `name` VARCHAR(45) NOT NULL,
+  `baseUrl` VARCHAR(45) NULL,
+  PRIMARY KEY (`id`));
