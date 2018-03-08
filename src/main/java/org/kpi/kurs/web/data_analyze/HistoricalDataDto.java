@@ -42,4 +42,18 @@ public class HistoricalDataDto {
     public void setBaseDate(Date baseDate) {
         this.baseDate = baseDate;
     }
+
+    public SourcesEnum getSource() {
+        return source;
+    }
+
+    @Override
+    public String toString() {
+        return "HistoricalDataDto{" +
+                "baseDate=" + baseDate +
+                ", source=" + source +
+                ", minTempList=" + minTempList +
+                ", maxTempList=" + maxTempList +
+                '}';
+    }
 }

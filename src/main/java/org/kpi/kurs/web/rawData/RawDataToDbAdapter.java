@@ -1,11 +1,7 @@
-package org.kpi.kurs.web.rawData.meteoprog;
+package org.kpi.kurs.web.rawData;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.kpi.kurs.web.rawData.RawDataDto;
-import org.kpi.kurs.web.rawData.RawDataEntity;
-import org.kpi.kurs.web.rawData.RawDataRepository;
-import org.kpi.kurs.web.rawData.SourcesEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;

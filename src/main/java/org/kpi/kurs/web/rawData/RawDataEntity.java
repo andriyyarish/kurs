@@ -10,7 +10,7 @@ public class RawDataEntity {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
-    private SourcesEnum sourceName;
+    private SourcesEnum sourceId;
     private Date baseDate;
     private double firstDayMinTemp;
     private double firstDayMaxTemp;
@@ -40,11 +40,11 @@ public class RawDataEntity {
     }
 
     public SourcesEnum getSourceName() {
-        return sourceName;
+        return sourceId;
     }
 
-    public RawDataEntity setSourceName(SourcesEnum sourceName) {
-        this.sourceName = sourceName;
+    public RawDataEntity setSourceName(SourcesEnum sourceId) {
+        this.sourceId = sourceId;
         return this;
     }
 
@@ -187,7 +187,7 @@ public class RawDataEntity {
     public String toString() {
         return "RawDataEntity{" +
                 "id=" + id +
-                ", sourceName=" + sourceName +
+                ", sourceName=" + sourceId +
                 ", baseDate=" + baseDate +
                 ", firstDayMinTemp=" + firstDayMinTemp +
                 ", firstDayMaxTemp=" + firstDayMaxTemp +

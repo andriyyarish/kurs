@@ -2,10 +2,7 @@ package org.kpi.kurs.web.data_analyze;
 
 import org.kpi.kurs.web.rawData.RawDataEntity;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class HistoricalDataManager {
     private Iterable<RawDataEntity> rawDataEntitiesList;
@@ -14,6 +11,7 @@ public class HistoricalDataManager {
     public HistoricalDataManager(Iterable<RawDataEntity> rawDataEntitiesList) {
         this.rawDataEntitiesList = rawDataEntitiesList;
         initHistoricalDataDto();
+        sortHistoricalDataByDate();
     }
 
     private void initHistoricalDataDto(){
@@ -24,7 +22,15 @@ public class HistoricalDataManager {
             fillTemp(e, dto);
             historicalDataDtos.add(dto);
         }
+    }
 
+    private void sortHistoricalDataByDate(){
+        historicalDataDtos.sort(new Comparator<HistoricalDataDto>() {
+            @Override
+            public int compare(HistoricalDataDto o1, HistoricalDataDto o2) {
+                return o1.getBaseDate().compareTo(o2.getBaseDate());
+            }
+        });
     }
 
     private void fillTemp(RawDataEntity source, HistoricalDataDto target){
@@ -51,7 +57,11 @@ public class HistoricalDataManager {
         return historicalDataDtos.stream().filter(o -> o.getBaseDate().compareTo(date) == 0).findAny();
     }
 
+    public HistoricalDataDto getHistoricalDataDtoWithLatestDate(){
+        return historicalDataDtos.get(historicalDataDtos.size()-1);
+    }
 
-
-
+    List<HistoricalDataDto> getHistoricalDataDtos() {
+        return historicalDataDtos;
+    }
 }

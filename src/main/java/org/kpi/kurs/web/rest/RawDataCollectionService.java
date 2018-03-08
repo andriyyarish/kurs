@@ -6,7 +6,7 @@ import org.kpi.kurs.web.rawData.RawDataDto;
 import org.kpi.kurs.web.rawData.RawDataEntity;
 import org.kpi.kurs.web.rawData.RawDataRepository;
 import org.kpi.kurs.web.rawData.RawDataSource;
-import org.kpi.kurs.web.rawData.meteoprog.RawDataToDbAdapter;
+import org.kpi.kurs.web.rawData.RawDataToDbAdapter;
 import org.openqa.selenium.WebDriver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -69,7 +69,7 @@ public class RawDataCollectionService {
         RawDataToDbAdapter rawDataToDbAdapter = new RawDataToDbAdapter(rawDataDtos, rawDataRepository);
         rawDataToDbAdapter.saveToDb();
 
-        Iterable<RawDataEntity> all = rawDataRepository.findBySourceName(rawDataDtos.get(0).getSourceName());
+        Iterable<RawDataEntity> all = rawDataRepository.findBySourceId(rawDataDtos.get(0).getSourceName());
         return all;
     }
 }

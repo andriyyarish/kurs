@@ -18,7 +18,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.web.context.WebApplicationContext;
 
 @SpringBootApplication
-@EnableJpaRepositories(basePackages = {"org.kpi.kurs.web.rawData"})
+@EnableJpaRepositories(basePackages = {"org.kpi.kurs.web.rawData", "org.kpi.kurs.web.data_analyze"})
 @EntityScan(basePackages = {"org.kpi.kurs.web"} )
 public class KursApplication {
 
