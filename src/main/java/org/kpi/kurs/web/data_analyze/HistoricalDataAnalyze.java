@@ -2,6 +2,7 @@ package org.kpi.kurs.web.data_analyze;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.kpi.kurs.dao.preAnalyzedData.TempDiffsEntity;
 import org.kpi.kurs.web.rawData.SourcesEnum;
 
 import java.time.Instant;
@@ -27,7 +28,7 @@ public class HistoricalDataAnalyze {
     private double baseLineMaxTemp;
     private final int BACKWARD_DEPTH = 6;
 
-    private List<TempDiffsDto> comparisonResult;
+    private List<TempDiffsEntity> comparisonResult;
 
     public HistoricalDataAnalyze(HistoricalDataManager historicalDataManager) {
         this.historicalDataManager = historicalDataManager;
@@ -46,14 +47,14 @@ public class HistoricalDataAnalyze {
         for (int i = 1; i <= BACKWARD_DEPTH-1; i++) {
             Optional<HistoricalDataDto> oneOfPreviousDate = historicalDataManager.getHistoricalDataDtoByDate(java.sql.Date.valueOf(baseLineDate.minusDays(i)));
 
-            TempDiffsDto tempDiffsDto = comparePreviousDateWithBaseLine(oneOfPreviousDate.get(), i);
+            TempDiffsEntity tempDiffsDto = comparePreviousDateWithBaseLine(oneOfPreviousDate.get(), i);
             comparisonResult.add(tempDiffsDto);
         }
         baseLineDto = historicalDataManager.getHistoricalDataDtoWithLatestDate();
         logger.trace("Comparison result:-> " + comparisonResult.toString());
     }
 
-    private TempDiffsDto comparePreviousDateWithBaseLine(HistoricalDataDto previousDay, int daysBeforeBaseLine) {
+    private TempDiffsEntity comparePreviousDateWithBaseLine(HistoricalDataDto previousDay, int daysBeforeBaseLine) {
         logger.trace("Base date that will be compared with baseline:-> " + previousDay.getBaseDate());
         double previousDayMinTemp = previousDay.getMinTempList().get(daysBeforeBaseLine-1);
         double previousDayMaxTemp = previousDay.getMaxTempList().get(daysBeforeBaseLine-1);
@@ -61,7 +62,7 @@ public class HistoricalDataAnalyze {
         double minTempDiff = calcAbsoluteDiff(baseLineMinTemp, previousDayMinTemp);
         double maxTempDiff = calcAbsoluteDiff(baseLineMaxTemp, previousDayMaxTemp);
 
-        TempDiffsDto res = new TempDiffsDto().setBaselineDate(java.sql.Date.valueOf(baseLineDate))
+        TempDiffsEntity res = new TempDiffsEntity().setBaselineDate(java.sql.Date.valueOf(baseLineDate))
                 .setSource(currentSource)
                 .setBackwardDeepness(daysBeforeBaseLine)
                 .setMinTempDiff(minTempDiff)
@@ -92,7 +93,7 @@ public class HistoricalDataAnalyze {
         return localDate;
     }
 
-    public List<TempDiffsDto> getComparisonResult() {
+    public List<TempDiffsEntity> getComparisonResult() {
         return comparisonResult;
     }
 }

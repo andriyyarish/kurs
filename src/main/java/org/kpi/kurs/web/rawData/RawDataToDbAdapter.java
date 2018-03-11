@@ -2,6 +2,8 @@ package org.kpi.kurs.web.rawData;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.kpi.kurs.dao.rawData.RawDataEntity;
+import org.kpi.kurs.dao.rawData.RawDataRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;

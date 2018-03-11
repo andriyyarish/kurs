@@ -1,6 +1,6 @@
 package org.kpi.kurs.web.data_analyze;
 
-import org.kpi.kurs.web.rawData.RawDataEntity;
+import org.kpi.kurs.dao.rawData.RawDataEntity;
 
 import java.util.*;
 

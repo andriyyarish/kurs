@@ -1,4 +1,4 @@
-package org.kpi.kurs.web.data_analyze;
+package org.kpi.kurs.dao.preAnalyzedData;
 
 import org.kpi.kurs.web.rawData.SourcesEnum;
 

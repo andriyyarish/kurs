@@ -1,15 +1,13 @@
 package org.kpi.kurs.web.data_analyze;
 
-import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kpi.kurs.KursApplicationTests;
-import org.kpi.kurs.web.rawData.RawDataEntity;
-import org.kpi.kurs.web.rawData.RawDataRepository;
-import org.kpi.kurs.web.rawData.RawDataSource;
+import org.kpi.kurs.dao.preAnalyzedData.DataAnalyzeRepository;
+import org.kpi.kurs.dao.preAnalyzedData.TempDiffsEntity;
+import org.kpi.kurs.dao.rawData.RawDataEntity;
 import org.kpi.kurs.web.rawData.SourcesEnum;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.sql.Date;
 import java.time.LocalDate;
@@ -34,14 +32,14 @@ public class HistoricalDataAnalyzeTest extends KursApplicationTests {
         HistoricalDataManager dataManager = new HistoricalDataManager(all);
         HistoricalDataAnalyze dataAnalyze = new HistoricalDataAnalyze(dataManager);
         dataAnalyze.calculateDifs();
-        List<TempDiffsDto> comparisonResult = dataAnalyze.getComparisonResult();
+        List<TempDiffsEntity> comparisonResult = dataAnalyze.getComparisonResult();
 
         double randomMaxTemp = new Random().nextDouble();
-        for(TempDiffsDto o: comparisonResult){
+        for(TempDiffsEntity o: comparisonResult){
             o.setMaxTempDiff(randomMaxTemp);
             dataAnalyzeRepository.save(o);
         }
-        List<TempDiffsDto> actualInsertRes = dataAnalyzeRepository.findAllByTempDiffIdentitySourceAndTempDiffIdentityBaselineDate(SourcesEnum.GISMETEO, Date.valueOf(localDateNow.minusDays(1)));
+        List<TempDiffsEntity> actualInsertRes = dataAnalyzeRepository.findAllByTempDiffIdentitySourceAndTempDiffIdentityBaselineDate(SourcesEnum.GISMETEO, Date.valueOf(localDateNow.minusDays(1)));
         Assert.assertThat(actualInsertRes.containsAll(comparisonResult), is(true));
     }
 }

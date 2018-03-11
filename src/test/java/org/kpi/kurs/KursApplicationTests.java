@@ -3,6 +3,8 @@ package org.kpi.kurs;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kpi.kurs.dao.rawData.RawDataEntity;
+import org.kpi.kurs.dao.rawData.RawDataRepository;
 import org.kpi.kurs.web.data_analyze.HistoricalDataAnalyze;
 import org.kpi.kurs.web.data_analyze.HistoricalDataDto;
 import org.kpi.kurs.web.data_analyze.HistoricalDataManager;
@@ -11,6 +13,7 @@ import org.kpi.kurs.web.rawData.RawDataToDbAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Profile;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -28,9 +31,11 @@ import static org.hamcrest.Matchers.closeTo;
 //@DataJpaTest
 //@EntityScan(basePackages = {"org.kpi.kurs.web"} )
 @Profile("default")
+@ComponentScan("org.kpi.kurs")
 public class KursApplicationTests {
 
     public static final double ERROR_MARKER = 777.0;
+    public static final LocalDate localDateNowForTest = LocalDate.of(2018,02,25);
 
     @Autowired
     @Qualifier("MeteoProg")

@@ -1,7 +1,8 @@
-package org.kpi.kurs.web.rawData;
+package org.kpi.kurs.dao.rawData;
+
+import org.kpi.kurs.web.rawData.SourcesEnum;
 
 import javax.persistence.Embeddable;
-import javax.persistence.EmbeddedId;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;

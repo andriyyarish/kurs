@@ -1,5 +1,7 @@
-package org.kpi.kurs.web.rawData;
+package org.kpi.kurs.dao.rawData;
 
+
+import org.kpi.kurs.web.rawData.SourcesEnum;
 
 import javax.persistence.*;
 import java.util.Date;

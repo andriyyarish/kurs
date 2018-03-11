@@ -1,6 +1,5 @@
-package org.kpi.kurs.web.data_analyze;
+package org.kpi.kurs.dao.preAnalyzedData;
 
-import org.hibernate.annotations.NaturalId;
 import org.kpi.kurs.web.rawData.SourcesEnum;
 
 import javax.persistence.*;
@@ -15,7 +14,7 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "rawdata_analysis")
-public class TempDiffsDto {
+public class TempDiffsEntity {
     //@NaturalId
     //@GeneratedValue(strategy = GenerationType.AUTO)
     //private Long id;
@@ -26,7 +25,7 @@ public class TempDiffsDto {
     @NotNull
     private Double minTempDiff;
 
-    public TempDiffsDto() {
+    public TempDiffsEntity() {
         tempDiffIdentity = new TempDiffIdentity();
     }
 
@@ -34,7 +33,7 @@ public class TempDiffsDto {
         return tempDiffIdentity.getSource();
     }
 
-    public TempDiffsDto setSource(SourcesEnum sources) {
+    public TempDiffsEntity setSource(SourcesEnum sources) {
         tempDiffIdentity.setSource(sources);
         return this;
     }
@@ -43,7 +42,7 @@ public class TempDiffsDto {
         return tempDiffIdentity.getBackwardDeepness();
     }
 
-    public TempDiffsDto setBackwardDeepness(int backwardDeepness) {
+    public TempDiffsEntity setBackwardDeepness(int backwardDeepness) {
         tempDiffIdentity.setBackwardDeepness(backwardDeepness);
         return this;
     }
@@ -52,7 +51,7 @@ public class TempDiffsDto {
         return tempDiffIdentity.getBaselineDate();
     }
 
-    public TempDiffsDto setBaselineDate(Date baselineDate) {
+    public TempDiffsEntity setBaselineDate(Date baselineDate) {
         tempDiffIdentity.setBaselineDate(baselineDate);
         return this;
     }
@@ -61,7 +60,7 @@ public class TempDiffsDto {
         return maxTempDiff;
     }
 
-    public TempDiffsDto setMaxTempDiff(Double maxTempDiff) {
+    public TempDiffsEntity setMaxTempDiff(Double maxTempDiff) {
         this.maxTempDiff = maxTempDiff;
         return this;
     }
@@ -70,7 +69,7 @@ public class TempDiffsDto {
         return minTempDiff;
     }
 
-    public TempDiffsDto setMinTempDiff(Double minTempDiff) {
+    public TempDiffsEntity setMinTempDiff(Double minTempDiff) {
         this.minTempDiff = minTempDiff;
         return this;
     }
@@ -79,7 +78,7 @@ public class TempDiffsDto {
 
     @Override
     public String toString() {
-        return "TempDiffsDto{" +
+        return "TempDiffsEntity{" +
                 ", tempDiffIdentity=" + tempDiffIdentity +
                 ", maxTempDiff=" + maxTempDiff +
                 ", minTempDiff=" + minTempDiff +
@@ -89,8 +88,8 @@ public class TempDiffsDto {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof TempDiffsDto)) return false;
-        TempDiffsDto that = (TempDiffsDto) o;
+        if (!(o instanceof TempDiffsEntity)) return false;
+        TempDiffsEntity that = (TempDiffsEntity) o;
         return Objects.equals(tempDiffIdentity, that.tempDiffIdentity) &&
                 Objects.equals(maxTempDiff, that.maxTempDiff) &&
                 Objects.equals(minTempDiff, that.minTempDiff);
