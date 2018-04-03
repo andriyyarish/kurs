@@ -18,9 +18,8 @@ import java.util.Optional;
  * Expected date range is up to 7 days
  */
 public class HistoricalDataAnalyze {
-    private HistoricalDataManager historicalDataManager;
     private static final Logger logger = LogManager.getLogger(HistoricalDataAnalyze.class);
-
+    private HistoricalDataManager historicalDataManager;
     private HistoricalDataDto baseLineDto;
     private SourcesEnum currentSource;
     private LocalDate baseLineDate;
@@ -39,11 +38,10 @@ public class HistoricalDataAnalyze {
         initBaseLine();
 
         compareBaseLineWithHistoricalData();
-
     }
 
     private void compareBaseLineWithHistoricalData() {
-        logger.debug("Analyzing historical data " + baseLineDto.getBaseDate());
+        logger.debug("Analyzing historical data with baseline -> " + baseLineDto.getBaseDate());
         for (int i = 1; i <= BACKWARD_DEPTH-1; i++) {
             Optional<HistoricalDataDto> oneOfPreviousDate = historicalDataManager.getHistoricalDataDtoByDate(java.sql.Date.valueOf(baseLineDate.minusDays(i)));
 
@@ -71,7 +69,7 @@ public class HistoricalDataAnalyze {
     }
 
     private double calcAbsoluteDiff(double baseLine, double toBeCompared) {
-        logger.trace(String.format("Calculating diff of temparature, baseline value is %1$,.2f, previous value is %1$,.2f", baseLine, toBeCompared));
+        logger.trace(String.format("Calculating diff of temparature, baseline value is %s, previous value is %s", String.valueOf(baseLine), String.valueOf(toBeCompared)));
         double res = baseLine - toBeCompared;
         return res > 0 ? res : res * -1;
 
@@ -83,7 +81,7 @@ public class HistoricalDataAnalyze {
         baseLineMinTemp = baseLineDto.getMinTempList().get(0);
         baseLineMaxTemp = baseLineDto.getMaxTempList().get(0);
         currentSource = baseLineDto.getSource();
-        logger.trace("Latest data" + baseLineDto.toString());
+        logger.trace("Baseline data(retrieved as latest dto)" + baseLineDto.toString());
     }
 
     private LocalDate convertDateToLocalDate(Date date) {

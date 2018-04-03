@@ -1,10 +1,16 @@
 package org.kpi.kurs.web.data_analyze;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.kpi.kurs.dao.rawData.RawDataEntity;
 
 import java.util.*;
 
+/**
+ * Convert raw data into sorted list of rawData entities for further proccesing on program side
+ */
 public class HistoricalDataManager {
+    private static final Logger logger = LogManager.getLogger(HistoricalDataManager.class);
     private Iterable<RawDataEntity> rawDataEntitiesList;
     private List<HistoricalDataDto> historicalDataDtos;
 
@@ -12,6 +18,9 @@ public class HistoricalDataManager {
         this.rawDataEntitiesList = rawDataEntitiesList;
         initHistoricalDataDto();
         sortHistoricalDataByDate();
+        logger.info(String.format("Raw data converted to historical dto. Dates range is %s -> %s",
+                historicalDataDtos.get(0).getBaseDate().toString(),
+                historicalDataDtos.get(historicalDataDtos.size()-1).getBaseDate().toString()));
     }
 
     private void initHistoricalDataDto(){

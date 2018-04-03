@@ -6,12 +6,13 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
 
 public abstract class RawDataSource {
     private static final Logger logger = LogManager.getLogger(RawDataSource.class);
-    @Autowired
     protected WebDriver driver;
     protected String baseUrl;
 
@@ -23,7 +24,16 @@ public abstract class RawDataSource {
     protected List<WebElement> minTemp;
     protected List<WebElement> maxTemp;
 
+    @Autowired
+    private ApplicationContext applicationContext;
+
+    @PostConstruct
+    private void setupDriver(){
+        this.driver = applicationContext.getBean(WebDriver.class);
+    }
+
     public List<RawDataDto> collectData(){
+        logger.trace("Raw data collection started");
         openSource();
         getRawData();
         verifyRawData();
@@ -44,7 +54,7 @@ public abstract class RawDataSource {
     protected void verifyRawData(){
         if(days.size() == maxTemp.size() &&
                 maxTemp.size() == minTemp.size()){
-            logger.debug("Length of all rawData parts is the same");
+            logger.trace("Length of all rawData parts is the same");
         }else {
             logger.warn("WARN raw data size is different");
         }
@@ -55,5 +65,9 @@ public abstract class RawDataSource {
     }
 
     protected abstract List<RawDataDto> transformRawDataToDto();
+
+    public void closeWebDriver(){
+        this.driver.close();
+    }
 
 }

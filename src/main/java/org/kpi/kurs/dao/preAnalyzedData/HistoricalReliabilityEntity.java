@@ -2,85 +2,86 @@ package org.kpi.kurs.dao.preAnalyzedData;
 
 import org.kpi.kurs.web.rawData.SourcesEnum;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.sql.Date;
+
+import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
 @Table(name = "sources_historical_reliability")
 public class HistoricalReliabilityEntity {
 
-    @Id
+    //@Id
+    @GeneratedValue(strategy = IDENTITY)
+    @Column(name = "id", unique = true, nullable = false, insertable = false, updatable = false)
     private Long id;
-    private SourcesEnum source;
-    private Date baselineDate;
-    private int backwardDeepness;
-    private double reliabilityRation;
+
+    @EmbeddedId
+    private PreAnalyzedDataIdentity tempDiffsEntity;
+    private double reliabilityRatio;
 
     public HistoricalReliabilityEntity(SourcesEnum source, Date baselineDate, int backwardDeepness) {
-        this.source = source;
-        this.baselineDate = baselineDate;
-        this.backwardDeepness = backwardDeepness;
+        tempDiffsEntity = new PreAnalyzedDataIdentity();
+        tempDiffsEntity.setSource(source);
+        tempDiffsEntity.setBaselineDate(baselineDate);
+        tempDiffsEntity.setBackwardDeepness(backwardDeepness);
     }
 
     public HistoricalReliabilityEntity(){
 
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public HistoricalReliabilityEntity setId(Long id) {
-        this.id = id;
-        return this;
-    }
+//    public Long getId() {
+//        return id;
+//    }
+//
+//    public HistoricalReliabilityEntity setId(Long id) {
+//        this.id = id;
+//        return this;
+//    }
 
     public SourcesEnum getSource() {
-        return source;
+        return tempDiffsEntity.getSource();
     }
 
     public HistoricalReliabilityEntity setSource(SourcesEnum source) {
-        this.source = source;
+        tempDiffsEntity.setSource(source);
         return this;
     }
 
     public Date getBaselineDate() {
-        return baselineDate;
+        return tempDiffsEntity.getBaselineDate();
     }
 
     public HistoricalReliabilityEntity setBaselineDate(Date baselineDate) {
-        this.baselineDate = baselineDate;
+        tempDiffsEntity.setBaselineDate(baselineDate);
         return this;
     }
 
     public int getBackwardDeepness() {
-        return backwardDeepness;
+        return tempDiffsEntity.getBackwardDeepness();
     }
 
     public HistoricalReliabilityEntity setBackwardDeepness(int backwardDeepness) {
-        this.backwardDeepness = backwardDeepness;
+        tempDiffsEntity.setBackwardDeepness(backwardDeepness);
         return this;
     }
 
-    public double getReliabilityRation() {
-        return reliabilityRation;
+    public double getReliabilityRatio() {
+        return reliabilityRatio;
     }
 
     public HistoricalReliabilityEntity setReliabilityRatio(double reliabilityRation) {
-        this.reliabilityRation = reliabilityRation;
+        this.reliabilityRatio = reliabilityRation;
         return this;
     }
 
     @Override
     public String toString() {
         return "HistoricalReliabilityEntity{" +
-                "id=" + id +
-                ", source=" + source +
-                ", baselineDate=" + baselineDate +
-                ", backwardDeepness=" + backwardDeepness +
-                ", reliabilityRation=" + reliabilityRation +
+ //               "id=" + id +
+                ", source=" + tempDiffsEntity +
+                ", reliabilityRation=" + reliabilityRatio +
                 "}\n";
     }
 }

@@ -77,8 +77,6 @@ public class KursApplicationTests {
         verifyEntity(res);
     }
 
-
-
     @Test
     public void historicalDataAnalyze() {
         LocalDate localDateNow = LocalDate.of(2018,02,25);

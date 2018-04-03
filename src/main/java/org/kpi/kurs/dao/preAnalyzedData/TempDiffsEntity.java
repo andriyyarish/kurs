@@ -19,14 +19,14 @@ public class TempDiffsEntity {
     //@GeneratedValue(strategy = GenerationType.AUTO)
     //private Long id;
     @EmbeddedId
-    private TempDiffIdentity tempDiffIdentity;
+    private PreAnalyzedDataIdentity tempDiffIdentity;
     @NotNull
     private Double maxTempDiff;
     @NotNull
     private Double minTempDiff;
 
     public TempDiffsEntity() {
-        tempDiffIdentity = new TempDiffIdentity();
+        tempDiffIdentity = new PreAnalyzedDataIdentity();
     }
 
     public SourcesEnum getSource() {

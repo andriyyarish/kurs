@@ -15,11 +15,13 @@ import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.context.WebApplicationContext;
 
 @SpringBootApplication
 @EnableJpaRepositories(basePackages = {"org.kpi.kurs.dao"})
 @EntityScan(basePackages = {"org.kpi.kurs"} )
+@EnableScheduling
 public class KursApplication {
 
 	public static void main(String[] args) {
@@ -29,11 +31,9 @@ public class KursApplication {
 		SpringApplication.run(KursApplication.class, args);
 	}
 
-	@Bean(name = "Driver")
-	@Scope(value = WebApplicationContext.SCOPE_REQUEST,
-			proxyMode = ScopedProxyMode.TARGET_CLASS)
+	@Bean(name = "driver")
+	@Scope(scopeName = "prototype")
 	public WebDriver getDriver(){
-
 		return new ChromeDriver();
 	}
 

@@ -35,7 +35,6 @@ public class MeteoProgWheatherSource extends RawDataSource {
                     .setMax(text2);
             res.add(rawDataDto);
         }
-        System.out.println(res);
         return res;
     }
 

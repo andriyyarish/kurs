@@ -64,7 +64,8 @@ public class RawDataDto {
     @Override
     public String toString() {
         return "RawDataDto{" +
-                "baseDate=" + baseDate +
+                "sourceName=" + sourceName.toString() +
+                ", baseDate=" + baseDate +
                 ", rawDate='" + rawDate + '\'' +
                 ", min='" + min + '\'' +
                 ", max='" + max + '\'' +

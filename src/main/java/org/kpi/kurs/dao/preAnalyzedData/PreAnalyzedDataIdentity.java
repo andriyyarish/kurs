@@ -8,8 +8,11 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.util.Objects;
 
+/**
+ * Primary key for source_historical_reliability and rawdata_analysis
+ */
 @Embeddable
-public class TempDiffIdentity implements Serializable {
+public class PreAnalyzedDataIdentity implements Serializable {
     @NotNull
     private SourcesEnum source;
     @NotNull
@@ -17,13 +20,13 @@ public class TempDiffIdentity implements Serializable {
     @NotNull
     private Date baselineDate;
 
-    public TempDiffIdentity(SourcesEnum source, int backwardDeepness, Date baselineDate) {
+    public PreAnalyzedDataIdentity(SourcesEnum source, int backwardDeepness, Date baselineDate) {
         this.source = source;
         this.backwardDeepness = backwardDeepness;
         this.baselineDate = baselineDate;
     }
 
-    public TempDiffIdentity(){
+    public PreAnalyzedDataIdentity(){
 
     }
 
@@ -31,7 +34,7 @@ public class TempDiffIdentity implements Serializable {
         return source;
     }
 
-    public TempDiffIdentity setSource(SourcesEnum source) {
+    public PreAnalyzedDataIdentity setSource(SourcesEnum source) {
         this.source = source;
         return this;
     }
@@ -40,7 +43,7 @@ public class TempDiffIdentity implements Serializable {
         return backwardDeepness;
     }
 
-    public TempDiffIdentity setBackwardDeepness(int backwardDeepness) {
+    public PreAnalyzedDataIdentity setBackwardDeepness(int backwardDeepness) {
         this.backwardDeepness = backwardDeepness;
         return this;
     }
@@ -49,7 +52,7 @@ public class TempDiffIdentity implements Serializable {
         return baselineDate;
     }
 
-    public TempDiffIdentity setBaselineDate(Date baselineDate) {
+    public PreAnalyzedDataIdentity setBaselineDate(Date baselineDate) {
         this.baselineDate = baselineDate;
         return this;
     }
@@ -57,8 +60,8 @@ public class TempDiffIdentity implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof TempDiffIdentity)) return false;
-        TempDiffIdentity that = (TempDiffIdentity) o;
+        if (!(o instanceof PreAnalyzedDataIdentity)) return false;
+        PreAnalyzedDataIdentity that = (PreAnalyzedDataIdentity) o;
         return backwardDeepness == that.backwardDeepness &&
                 source == that.source &&
                 Objects.equals(baselineDate, that.baselineDate);
@@ -72,7 +75,7 @@ public class TempDiffIdentity implements Serializable {
 
     @Override
     public String toString() {
-        return "TempDiffIdentity{" +
+        return "PreAnalyzedDataIdentity{" +
                 "source=" + source +
                 ", backwardDeepness=" + backwardDeepness +
                 ", baselineDate=" + baselineDate +

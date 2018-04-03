@@ -1,4 +1,4 @@
-package org.kpi.kurs.web.rest;
+package org.kpi.kurs.services.rest;
 
 import com.google.common.collect.Lists;
 import org.kpi.kurs.web.data_analyze.HistoricalDataManager;
@@ -35,41 +35,42 @@ public class RawDataCollectionService {
     @Autowired
     RawDataRepository rawDataRepository;
 
-    @Autowired
-    WebDriver driver;
+//    @Autowired
+//    WebDriver driver;
 
     @Async
     @GetMapping(value = "collectData")
     public List<RawDataEntity> collectRawData(){
 
-        List<RawDataEntity> result = new ArrayList<>();
-
-        List<RawDataDto> rawDataDtosMp = rawDataSourceMP.collectData();
-        Iterable<RawDataEntity> res = saveToDb(rawDataDtosMp);
-        result.addAll(Lists.newArrayList(res));
-
-        List<RawDataDto> rawDataDtosSin = rawDataSourceSIN.collectData();
-        Iterable<RawDataEntity> res2 = saveToDb(rawDataDtosSin);
-        result.addAll(Lists.newArrayList(res2));
-
-        List<RawDataDto> rawDataDtosGm = rawDataSourceGM.collectData();
-        Iterable<RawDataEntity> res3 = saveToDb(rawDataDtosGm);
-        result.addAll(Lists.newArrayList(res3));
-
-        HistoricalDataManager historicalDataAnalyze = new HistoricalDataManager(result);
-
-
-        driver.close();
-        return result;
+//        List<RawDataEntity> result = new ArrayList<>();
+//
+//        List<RawDataDto> rawDataDtosMp = rawDataSourceMP.collectData();
+//        Iterable<RawDataEntity> res = saveToDb(rawDataDtosMp);
+//        result.addAll(Lists.newArrayList(res));
+//
+//        List<RawDataDto> rawDataDtosSin = rawDataSourceSIN.collectData();
+//        Iterable<RawDataEntity> res2 = saveToDb(rawDataDtosSin);
+//        result.addAll(Lists.newArrayList(res2));
+//
+//        List<RawDataDto> rawDataDtosGm = rawDataSourceGM.collectData();
+//        Iterable<RawDataEntity> res3 = saveToDb(rawDataDtosGm);
+//        result.addAll(Lists.newArrayList(res3));
+//
+//        HistoricalDataManager historicalDataAnalyze = new HistoricalDataManager(result);
+//
+//
+//        driver.close();
+        return null;
     }
 
 
 
     private Iterable<RawDataEntity> saveToDb(List<RawDataDto> rawDataDtos){
-        RawDataToDbAdapter rawDataToDbAdapter = new RawDataToDbAdapter(rawDataDtos, rawDataRepository);
-        rawDataToDbAdapter.saveToDb();
-
-        Iterable<RawDataEntity> all = rawDataRepository.findBySourceId(rawDataDtos.get(0).getSourceName());
-        return all;
+//        RawDataToDbAdapter rawDataToDbAdapter = new RawDataToDbAdapter(rawDataDtos, rawDataRepository);
+//        rawDataToDbAdapter.saveToDb();
+//
+//        Iterable<RawDataEntity> all = rawDataRepository.findBySourceId(rawDataDtos.get(0).getSourceName());
+//        return all;
+        return null;
     }
 }

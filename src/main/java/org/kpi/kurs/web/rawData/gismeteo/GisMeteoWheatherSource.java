@@ -13,12 +13,12 @@ import java.util.List;
 
 public class GisMeteoWheatherSource extends RawDataSource {
     private static final Logger logger = LogManager.getLogger(GisMeteoWheatherSource.class);
+
     public GisMeteoWheatherSource() {
         baseUrl = "https://www.gismeteo.ua/ua/weather-kyiv-4944/14-days/";
         daysXpath = "//div[@class = 's_date']";
         minTempXpath = "(//div[@class = 's_date']//..//..)//td[@class='temp'][1]//span[1]";
         maxTempXpath = "(//div[@class = 's_date']//..//..)//td[@class='temp'][2]//span[1]";
-
     }
 
     @Override
