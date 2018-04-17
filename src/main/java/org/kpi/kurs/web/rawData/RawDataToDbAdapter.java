@@ -6,9 +6,11 @@ import org.kpi.kurs.dao.rawData.RawDataEntity;
 import org.kpi.kurs.dao.rawData.RawDataRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class RawDataToDbAdapter {
     private static final Logger logger = LogManager.getLogger(RawDataToDbAdapter.class);
@@ -20,6 +22,7 @@ public class RawDataToDbAdapter {
 
     private List<RawDataDto> rawDataDtoList;
     private RawDataEntity rawDataEntity;
+    private Collection<List<RawDataDto>> rawDtoListSplittedBySource;
 
 //    public RawDataToDbAdapter(List<RawDataDto> rawDataDtoList) {
 //        this.rawDataDtoList = rawDataDtoList;
@@ -29,22 +32,27 @@ public class RawDataToDbAdapter {
     public RawDataToDbAdapter(List<RawDataDto> rawDataDtoList, RawDataRepository rawDataRepository) {
         this.rawDataDtoList = rawDataDtoList;
         this.rawDataRepository = rawDataRepository;
-        this.SOURCE_NAME = rawDataDtoList.get(0).getSourceName();
+
     }
 
 
     public void saveToDb(){
-        rawDataEntity = new RawDataEntity();
-        rawDataEntity.setSourceName(SOURCE_NAME);
-        rawDataEntity.setBaseDate(rawDataDtoList.get(0).getBaseDate());
+        rawDtoListSplittedBySource = rawDataDtoList.stream().collect(
+                Collectors.groupingBy(el -> el.getSourceName())).values();
+        this.SOURCE_NAME = rawDataDtoList.get(0).getSourceName();
 
-        int index = 0;
-        for (RawDataDto rdto: rawDataDtoList){
-            fillByDate(rdto, index);
-            index++;
+        for(List<RawDataDto> source: rawDtoListSplittedBySource) {
+            rawDataEntity = new RawDataEntity();
+            rawDataEntity.setSourceName(source.get(0).getSourceName());
+            rawDataEntity.setBaseDate(source.get(0).getBaseDate());
+
+            int index = 0;
+            for (RawDataDto rdto : source) {
+                fillByDate(rdto, index);
+                index++;
+            }
+            rawDataRepository.save(rawDataEntity);
         }
-
-        rawDataRepository.save(rawDataEntity);
     }
 
     private double convertTemp(String temp){
