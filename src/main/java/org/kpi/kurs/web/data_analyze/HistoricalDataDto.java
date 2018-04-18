@@ -3,7 +3,7 @@ package org.kpi.kurs.web.data_analyze;
 import org.kpi.kurs.web.rawData.SourcesEnum;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 
 public class HistoricalDataDto {

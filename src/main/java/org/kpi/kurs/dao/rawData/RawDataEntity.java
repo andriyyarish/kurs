@@ -4,7 +4,7 @@ package org.kpi.kurs.dao.rawData;
 import org.kpi.kurs.web.rawData.SourcesEnum;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.sql.Date;
 
 @Entity
 @Table(name = "rawdata")

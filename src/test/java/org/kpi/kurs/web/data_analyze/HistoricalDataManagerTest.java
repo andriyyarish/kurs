@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kpi.kurs.dao.rawData.RawDataEntity;
 import org.kpi.kurs.dao.rawData.RawDataRepository;
+import org.kpi.kurs.web.rawData.RawDataNormalizationService;
 import org.kpi.kurs.web.rawData.RawDataSource;
 import org.kpi.kurs.web.rawData.SourcesEnum;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,9 +40,12 @@ public class HistoricalDataManagerTest {
     @Autowired
     RawDataRepository rawDataRepository;
 
+    @Autowired
+    RawDataNormalizationService rawDataNormalizationService;
+
     @Test
     public void dataManagerGetByDate_LatestDate_Test(){
-        LocalDate localDateNow = LocalDate.of(2018,02,25); // date should be included in result
+        LocalDate localDateNow = LocalDate.of(2018,04,18); // date should be included in result
         LocalDate localDateBefore = localDateNow.minusDays(5); // date should be EXCLUDED in result
         Iterable<RawDataEntity> all = rawDataRepository.findByBaseDateBetweenAndSourceId(Date.valueOf(localDateBefore), Date.valueOf(localDateNow), SourcesEnum.GISMETEO);
         HistoricalDataManager dataManager = new HistoricalDataManager(all);
@@ -61,6 +65,16 @@ public class HistoricalDataManagerTest {
 
             Assert.assertThat(next.compareTo(current), Matchers.greaterThan(0));
         }
+    }
+
+    @Test
+    public void dataManagerExcHandling(){
+        rawDataNormalizationService.replaceDuplicatesWithAvarage();
+        LocalDate localDateNow = LocalDate.of(2018,04,19); // date should be included in result
+        LocalDate localDateBefore = localDateNow.minusDays(5); // date should be EXCLUDED in result
+        Iterable<RawDataEntity> all = rawDataRepository.findByBaseDateBetweenAndSourceId(Date.valueOf(localDateBefore), Date.valueOf(localDateNow), SourcesEnum.GISMETEO);
+        HistoricalDataManager dataManager = new HistoricalDataManager(all, Date.valueOf(localDateNow.minusDays(1)), Date.valueOf(localDateBefore));
+
     }
 
 

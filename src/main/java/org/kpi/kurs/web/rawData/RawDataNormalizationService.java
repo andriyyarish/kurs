@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
-
+//TODO should be renamed
 @Component
 public class RawDataNormalizationService {
     public static final Logger logger = LogManager.getLogger(RawDataNormalizationService.class);
@@ -66,9 +66,10 @@ public class RawDataNormalizationService {
             }
         });
         logger.trace(avgForDuplicates);
+        logger.info("Writing AVG values for duplicates");
+        rawDataRepository.save(avgForDuplicates);
+        logger.info("Removing duplicated values with ids:-> " + idsOfDuplicatedRaws);
+        idsOfDuplicatedRaws.stream().forEach(id -> rawDataRepository.delete(new Long(id)));
     }
 
-    public void fillGaps() {
-
-    }
 }

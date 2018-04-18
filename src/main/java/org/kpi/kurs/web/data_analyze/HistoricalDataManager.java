@@ -14,6 +14,11 @@ public class HistoricalDataManager {
     private Iterable<RawDataEntity> rawDataEntitiesList;
     private List<HistoricalDataDto> historicalDataDtos;
 
+    private Date baseDate;
+    private Date earliestBackWardDate;
+
+    private static final int MAX_EXPECTED_PERIOD_LENGTH = 7;
+
     public HistoricalDataManager(Iterable<RawDataEntity> rawDataEntitiesList) {
         this.rawDataEntitiesList = rawDataEntitiesList;
         initHistoricalDataDto();
@@ -21,6 +26,27 @@ public class HistoricalDataManager {
         logger.info(String.format("Raw data converted to historical dto. Dates range is %s -> %s",
                 historicalDataDtos.get(0).getBaseDate().toString(),
                 historicalDataDtos.get(historicalDataDtos.size()-1).getBaseDate().toString()));
+    }
+
+    public HistoricalDataManager(Iterable<RawDataEntity> rawDataEntities, Date baseDate, Date earliestBackWardDate){
+        this(rawDataEntities);
+        this.baseDate = baseDate;
+        this.earliestBackWardDate = earliestBackWardDate;
+        verifyAndNormalize();
+    }
+
+    private void verifyAndNormalize(){
+
+        if(!(historicalDataDtos.get(historicalDataDtos.size()-1).getBaseDate().equals(baseDate))) {
+            logger.error("Based date expected:-> " + baseDate.toString());
+            logger.error("Base date actual:-> " + historicalDataDtos.get(historicalDataDtos.size()-1).getBaseDate());
+            throw new HistoricalDataCorruptedException("Looks like that expected base date was not retrieved from DB");
+        }
+
+        if(historicalDataDtos.size()>MAX_EXPECTED_PERIOD_LENGTH)
+            throw new HistoricalDataCorruptedException(String.format("Looks like that retrieved data set size (%d) is bigger than max expected period %d. Please remove duplicates",
+                    historicalDataDtos.size(), MAX_EXPECTED_PERIOD_LENGTH));
+
     }
 
     private void initHistoricalDataDto(){

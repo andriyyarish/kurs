@@ -86,6 +86,7 @@ public class HistoricalDataAnalyze {
 
     private LocalDate convertDateToLocalDate(Date date) {
         ZoneId defaultZoneId = ZoneId.systemDefault();
+//TODO exception here because java.util.date was changed to sql specific one
         Instant instant = date.toInstant();
         LocalDate localDate = instant.atZone(defaultZoneId).toLocalDate();
         return localDate;
