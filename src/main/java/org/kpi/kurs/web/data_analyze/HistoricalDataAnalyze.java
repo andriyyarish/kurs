@@ -5,13 +5,10 @@ import org.apache.log4j.Logger;
 import org.kpi.kurs.dao.preAnalyzedData.TempDiffsEntity;
 import org.kpi.kurs.web.rawData.SourcesEnum;
 
-import java.time.Instant;
 import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+
+import static org.kpi.kurs.web.data_analyze.DateUtils.convertDateToLocalDate;
 
 /**
  * Class should be provided with DataManager object that stores data within date range that should be analyzed
@@ -25,13 +22,20 @@ public class HistoricalDataAnalyze {
     private LocalDate baseLineDate;
     private double baseLineMinTemp;
     private double baseLineMaxTemp;
-    private final int BACKWARD_DEPTH = 6;
+    private final int BACKWARD_DEPTH = 5;
 
     private List<TempDiffsEntity> comparisonResult;
 
     public HistoricalDataAnalyze(HistoricalDataManager historicalDataManager) {
         this.historicalDataManager = historicalDataManager;
         comparisonResult = new ArrayList<>();
+        verifyHistoricalDataManager();
+    }
+
+    private void verifyHistoricalDataManager(){
+        if(historicalDataManager.getHistoricalDataDtos().size()<BACKWARD_DEPTH-1)
+            throw new HistoricalDataCorruptedException(String.format("Data manager contains less object than expected:-> act %d exp %d",
+                    historicalDataManager.getHistoricalDataDtos().size(), BACKWARD_DEPTH-1));
     }
 
     public void calculateDifs() {
@@ -82,14 +86,6 @@ public class HistoricalDataAnalyze {
         baseLineMaxTemp = baseLineDto.getMaxTempList().get(0);
         currentSource = baseLineDto.getSource();
         logger.trace("Baseline data(retrieved as latest dto)" + baseLineDto.toString());
-    }
-
-    private LocalDate convertDateToLocalDate(Date date) {
-        ZoneId defaultZoneId = ZoneId.systemDefault();
-//TODO exception here because java.util.date was changed to sql specific one
-        Instant instant = date.toInstant();
-        LocalDate localDate = instant.atZone(defaultZoneId).toLocalDate();
-        return localDate;
     }
 
     public List<TempDiffsEntity> getComparisonResult() {

@@ -66,7 +66,6 @@ public class KursApplicationTests {
 
         Iterable<RawDataEntity> res = saveToDb(rawDataDtos);
         verifyEntity(res);
-        SourcesEnum.GISMETEO.ordinal();
     }
 
     @Test

@@ -4,6 +4,7 @@ import org.kpi.kurs.web.rawData.SourcesEnum;
 
 import java.util.ArrayList;
 import java.sql.Date;
+import java.util.Arrays;
 import java.util.List;
 
 public class HistoricalDataDto {
@@ -15,8 +16,21 @@ public class HistoricalDataDto {
     public HistoricalDataDto(Date baseDate, SourcesEnum source) {
         this.baseDate = baseDate;
         this.source = source;
+//        minTempList = new ArrayList<>();
+//        maxTempList = new ArrayList<>();
         minTempList = new ArrayList<>();
+        minTempList.addAll(Arrays.asList(777.0, 777.0, 777.0, 777.0, 777.0, 777.0));
         maxTempList = new ArrayList<>();
+        maxTempList.addAll(Arrays.asList(777.0, 777.0, 777.0, 777.0, 777.0, 777.0));
+    }
+
+    public HistoricalDataDto(HistoricalDataDto copyFrom){
+        this.baseDate = copyFrom.getBaseDate();
+        this.source = copyFrom.getSource();
+        minTempList = new ArrayList<>();
+        minTempList.addAll(Arrays.asList(777.0, 777.0, 777.0, 777.0, 777.0, 777.0));
+        maxTempList = new ArrayList<>();
+        maxTempList.addAll(Arrays.asList(777.0, 777.0, 777.0, 777.0, 777.0, 777.0));
     }
 
     public List<Double> getMinTempList() {

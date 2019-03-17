@@ -45,16 +45,18 @@ public class HistoricalDataManagerTest {
 
     @Test
     public void dataManagerGetByDate_LatestDate_Test(){
-        LocalDate localDateNow = LocalDate.of(2018,04,18); // date should be included in result
+        LocalDate localDateNow = LocalDate.of(2019,03,10); // date should be included in result
         LocalDate localDateBefore = localDateNow.minusDays(5); // date should be EXCLUDED in result
         Iterable<RawDataEntity> all = rawDataRepository.findByBaseDateBetweenAndSourceId(Date.valueOf(localDateBefore), Date.valueOf(localDateNow), SourcesEnum.GISMETEO);
         HistoricalDataManager dataManager = new HistoricalDataManager(all);
-        Assert.assertEquals(dataManager.getHistoricalDataDtoWithLatestDate().getBaseDate().compareTo(Date.valueOf(localDateNow.minusDays(1))), 0);
+
+        Date baseDate = dataManager.getHistoricalDataDtoWithLatestDate().getBaseDate();
+        Assert.assertEquals(baseDate.compareTo(Date.valueOf(localDateNow)), 0);
     }
 
     @Test
     public void dataManagerGetByDate_DatesSortOrderTest_Test(){
-        LocalDate localDateNow = LocalDate.of(2018,02,25); // date should NOT be included in result
+        LocalDate localDateNow = LocalDate.of(2019,03,10); // date should NOT be included in result
         LocalDate localDateBefore = localDateNow.minusDays(5); // date should be included in result
         Iterable<RawDataEntity> all = rawDataRepository.findByBaseDateBetweenAndSourceId(Date.valueOf(localDateBefore), Date.valueOf(localDateNow), SourcesEnum.GISMETEO);
         HistoricalDataManager dataManager = new HistoricalDataManager(all);
@@ -68,7 +70,7 @@ public class HistoricalDataManagerTest {
     }
 
     @Test
-    public void dataManagerExcHandling(){
+    public void dataManagerExcHandlingAndNormalization(){
         rawDataNormalizationService.replaceDuplicatesWithAvarage();
         LocalDate localDateNow = LocalDate.of(2018,04,19); // date should be included in result
         LocalDate localDateBefore = localDateNow.minusDays(5); // date should be EXCLUDED in result

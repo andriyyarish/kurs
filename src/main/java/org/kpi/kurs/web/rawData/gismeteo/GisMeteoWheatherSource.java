@@ -7,6 +7,7 @@ import org.kpi.kurs.web.rawData.RawDataSource;
 import org.kpi.kurs.web.rawData.SourcesEnum;
 import org.openqa.selenium.By;
 
+import javax.annotation.PreDestroy;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +25,11 @@ public class GisMeteoWheatherSource extends RawDataSource {
     @Override
     protected void openSource() {
         super.openSource();
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         driver.findElement(By.xpath("//*[contains(text(), 'Розгорнути всі дні')]")).click();
         driver.findElement(By.xpath("//*[contains(text(), 'Згорнути всі дні')]")).click();
     }

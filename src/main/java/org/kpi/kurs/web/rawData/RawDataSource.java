@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import java.util.List;
 
 public abstract class RawDataSource {
@@ -68,6 +69,11 @@ public abstract class RawDataSource {
 
     public void closeWebDriver(){
         this.driver.close();
+    }
+
+    @PreDestroy
+    public void closeWd(){
+        closeWebDriver();
     }
 
 }

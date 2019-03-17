@@ -32,9 +32,7 @@ public class RawDataToDbAdapter {
     public RawDataToDbAdapter(List<RawDataDto> rawDataDtoList, RawDataRepository rawDataRepository) {
         this.rawDataDtoList = rawDataDtoList;
         this.rawDataRepository = rawDataRepository;
-
     }
-
 
     public void saveToDb(){
         rawDtoListSplittedBySource = rawDataDtoList.stream().collect(

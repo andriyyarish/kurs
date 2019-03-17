@@ -26,8 +26,8 @@ public class HistoricalDataAnalyzeTest extends KursApplicationTests {
      */
     @Test
     public void dataManagerGetByDate_LatestDate_Test(){
-        LocalDate localDateNow = LocalDate.of(2018,02,25);  // date should be EXCLUDED in result
-        LocalDate localDateBefore = localDateNow.minusDays(6); // date should be included in result //
+        LocalDate localDateNow = LocalDate.of(2019,03,8);  // date should be EXCLUDED in result
+        LocalDate localDateBefore = localDateNow.minusDays(5); // date should be included in result //
         Iterable<RawDataEntity> all = rawDataRepository.findByBaseDateBetweenAndSourceId(Date.valueOf(localDateBefore), Date.valueOf(localDateNow), SourcesEnum.GISMETEO);
         HistoricalDataManager dataManager = new HistoricalDataManager(all);
         HistoricalDataAnalyze dataAnalyze = new HistoricalDataAnalyze(dataManager);
@@ -41,5 +41,16 @@ public class HistoricalDataAnalyzeTest extends KursApplicationTests {
         }
         List<TempDiffsEntity> actualInsertRes = dataAnalyzeRepository.findAllByTempDiffIdentitySourceAndTempDiffIdentityBaselineDate(SourcesEnum.GISMETEO, Date.valueOf(localDateNow.minusDays(1)));
         Assert.assertThat(actualInsertRes.containsAll(comparisonResult), is(true));
+    }
+
+    @Test
+    public void dataManagerContainsPeriodWithGaps(){
+        LocalDate localDateNow = LocalDate.of(2018,04,19); // date should be included in result
+        LocalDate localDateBefore = localDateNow.minusDays(5); // date should be EXCLUDED in result
+        Iterable<RawDataEntity> all = rawDataRepository.findByBaseDateBetweenAndSourceId(Date.valueOf(localDateBefore), Date.valueOf(localDateNow), SourcesEnum.GISMETEO);
+        HistoricalDataManager dataManager = new HistoricalDataManager(all, Date.valueOf(localDateNow.minusDays(1)), Date.valueOf(localDateBefore));
+        HistoricalDataAnalyze dataAnalyze = new HistoricalDataAnalyze(dataManager);
+        dataAnalyze.calculateDifs();
+        List<TempDiffsEntity> comparisonResult = dataAnalyze.getComparisonResult();
     }
 }
