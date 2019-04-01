@@ -45,7 +45,7 @@ public class HistoricalDataManagerTest {
 
     @Test
     public void dataManagerGetByDate_LatestDate_Test(){
-        LocalDate localDateNow = LocalDate.of(2019,03,10); // date should be included in result
+        LocalDate localDateNow = LocalDate.of(2019,03,16); // date should be included in result
         LocalDate localDateBefore = localDateNow.minusDays(5); // date should be EXCLUDED in result
         Iterable<RawDataEntity> all = rawDataRepository.findByBaseDateBetweenAndSourceId(Date.valueOf(localDateBefore), Date.valueOf(localDateNow), SourcesEnum.GISMETEO);
         HistoricalDataManager dataManager = new HistoricalDataManager(all);

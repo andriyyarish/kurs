@@ -42,24 +42,6 @@ public class RawDataCollectionService {
     @GetMapping(value = "collectData")
     public List<RawDataEntity> collectRawData(){
 
-//        List<RawDataEntity> result = new ArrayList<>();
-//
-//        List<RawDataDto> rawDataDtosMp = rawDataSourceMP.collectData();
-//        Iterable<RawDataEntity> res = saveToDb(rawDataDtosMp);
-//        result.addAll(Lists.newArrayList(res));
-//
-//        List<RawDataDto> rawDataDtosSin = rawDataSourceSIN.collectData();
-//        Iterable<RawDataEntity> res2 = saveToDb(rawDataDtosSin);
-//        result.addAll(Lists.newArrayList(res2));
-//
-//        List<RawDataDto> rawDataDtosGm = rawDataSourceGM.collectData();
-//        Iterable<RawDataEntity> res3 = saveToDb(rawDataDtosGm);
-//        result.addAll(Lists.newArrayList(res3));
-//
-//        HistoricalDataManager historicalDataAnalyze = new HistoricalDataManager(result);
-//
-//
-//        driver.close();
         return null;
     }
 

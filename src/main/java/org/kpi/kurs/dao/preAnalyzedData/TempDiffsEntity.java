@@ -75,7 +75,6 @@ public class TempDiffsEntity {
     }
 
 
-
     @Override
     public String toString() {
         return "TempDiffsEntity{" +
@@ -87,12 +86,14 @@ public class TempDiffsEntity {
 
     @Override
     public boolean equals(Object o) {
+        double EPSILON = 0.00001;
+
         if (this == o) return true;
         if (!(o instanceof TempDiffsEntity)) return false;
         TempDiffsEntity that = (TempDiffsEntity) o;
-        return Objects.equals(tempDiffIdentity, that.tempDiffIdentity) &&
-                Objects.equals(maxTempDiff, that.maxTempDiff) &&
-                Objects.equals(minTempDiff, that.minTempDiff);
+        return Objects.equals(tempDiffIdentity, that.tempDiffIdentity)
+                && Math.abs(this.maxTempDiff - that.maxTempDiff) < EPSILON
+                && Math.abs(this.minTempDiff - that.minTempDiff) < EPSILON;
     }
 
     @Override

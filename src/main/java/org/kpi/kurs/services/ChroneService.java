@@ -45,18 +45,18 @@ public class ChroneService {
     DataAnalyzeRepository dataAnalyzeRepository;
 
 
-    @Scheduled(fixedRate = 50000)
+    @Scheduled(initialDelay = 10000, fixedRate = 50000)
     public void collectRawData() {
-        verifyRawDataAndSave(rawDataSourceGM, rawDataSourceMP, rawDataSourceSIN);
+        getVerifyAndSave(rawDataSourceGM, rawDataSourceMP, rawDataSourceSIN);
     }
 
     /**
      * Current date should be baseline date. But in this case raw data should be collected continuously date by date
      */
-    @Scheduled(fixedRate = 70000)
+    @Scheduled(fixedRate = 100000)
     public void analyzeHistoricalData(){
-        LocalDate localDateNow = LocalDate.of(2018,02,25);  // date should be EXCLUDED in result
-        LocalDate localDateBefore = localDateNow.minusDays(6); // date should be included in result //
+        LocalDate localDateNow = LocalDate.now();  // date should be EXCLUDED in result
+        LocalDate localDateBefore = localDateNow.minusDays(5); // date should be included in result //
         Iterable<RawDataEntity> all = rawDataRepository.findByBaseDateBetweenAndSourceId(Date.valueOf(localDateBefore), Date.valueOf(localDateNow), SourcesEnum.GISMETEO);
         HistoricalDataManager dataManager = new HistoricalDataManager(all);
         HistoricalDataAnalyze dataAnalyze = new HistoricalDataAnalyze(dataManager);
@@ -65,7 +65,7 @@ public class ChroneService {
         dataAnalyzeRepository.save(comparisonResult);
     }
 
-    private void verifyRawDataAndSave(RawDataSource... sources) {
+    private void getVerifyAndSave(RawDataSource... sources) {
         logger.debug("RawData collection started. Data will be saved to db if verification passed.");
         List<RawDataDto> result = new LinkedList<>();
         try {
@@ -80,9 +80,7 @@ public class ChroneService {
         } catch (AssertionError e) {
             logger.warn(String.format("Verification of collected results failed. Details: -> \n %s", e.getMessage()));
         }
-
     }
-
 
     private void saveToDb(List<RawDataDto> rawDataDtos) {
         RawDataToDbAdapter rawDataToDbAdapter = new RawDataToDbAdapter(rawDataDtos, rawDataRepository);
@@ -97,5 +95,4 @@ public class ChroneService {
         }
         return result;
     }
-
 }

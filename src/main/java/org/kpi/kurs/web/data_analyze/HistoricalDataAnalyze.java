@@ -46,13 +46,12 @@ public class HistoricalDataAnalyze {
 
     private void compareBaseLineWithHistoricalData() {
         logger.debug("Analyzing historical data with baseline -> " + baseLineDto.getBaseDate());
-        for (int i = 1; i <= BACKWARD_DEPTH-1; i++) {
-            Optional<HistoricalDataDto> oneOfPreviousDate = historicalDataManager.getHistoricalDataDtoByDate(java.sql.Date.valueOf(baseLineDate.minusDays(i)));
+        for (int i = 0; i <= BACKWARD_DEPTH-1; i++) {
+            Optional<HistoricalDataDto> oneOfPreviousDate = historicalDataManager.getHistoricalDataDtoByDate(java.sql.Date.valueOf(baseLineDate.minusDays(i+1)));
 
-            TempDiffsEntity tempDiffsDto = comparePreviousDateWithBaseLine(oneOfPreviousDate.get(), i);
+            TempDiffsEntity tempDiffsDto = comparePreviousDateWithBaseLine(oneOfPreviousDate.get(), i+1); // TODO due to first date forecast for baseDate is not actual temp for based date - shifting could be incorrect
             comparisonResult.add(tempDiffsDto);
         }
-        baseLineDto = historicalDataManager.getHistoricalDataDtoWithLatestDate();
         logger.trace("Comparison result:-> " + comparisonResult.toString());
     }
 
@@ -76,7 +75,6 @@ public class HistoricalDataAnalyze {
         logger.trace(String.format("Calculating diff of temparature, baseline value is %s, previous value is %s", String.valueOf(baseLine), String.valueOf(toBeCompared)));
         double res = baseLine - toBeCompared;
         return res > 0 ? res : res * -1;
-
     }
 
     private void initBaseLine() {
